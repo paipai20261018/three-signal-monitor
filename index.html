@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>三信号监控 · 纳指定投</title>
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#0f172a">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<style>
+  :root{
+    --bg:#0b1220; --card:#141d2f; --card2:#1b2740; --line:#26324a;
+    --text:#e6edf7; --muted:#8595ad; --accent:#4f8cff;
+    --green:#16c784; --yellow:#f0b90b; --red:#f6465d; --gray:#5a6b85;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+  body{font-family:-apple-system,"PingFang SC","Microsoft YaHei",sans-serif;
+    background:var(--bg);color:var(--text);min-height:100vh;padding-bottom:70px;font-size:15px}
+  header{padding:18px 16px 12px;display:flex;justify-content:space-between;align-items:center;
+    position:sticky;top:0;background:rgba(11,18,32,.92);backdrop-filter:blur(12px);z-index:20;
+    border-bottom:1px solid var(--line)}
+  header h1{font-size:1.1rem;font-weight:600;letter-spacing:.5px}
+  header .sub{font-size:.7rem;color:var(--muted);margin-top:3px}
+  .refresh{border:1px solid var(--line);background:var(--card);color:var(--text);
+    padding:7px 14px;border-radius:10px;font-size:.8rem;cursor:pointer;transition:.2s}
+  .refresh:hover{border-color:var(--accent);color:var(--accent)}
+  .refresh:active{transform:scale(.96)}
+  .refresh.spin{pointer-events:none;opacity:.6}
+  main{padding:16px;max-width:720px;margin:0 auto}
+
+  /* 决策卡 */
+  .decision{border-radius:18px;padding:18px;margin-bottom:16px;position:relative;overflow:hidden;
+    background:linear-gradient(135deg,#1a2740,#141d2f);border:1px solid var(--line)}
+  .decision::before{content:"";position:absolute;left:0;top:0;bottom:0;width:5px}
+  .decision.success::before{background:var(--green)}
+  .decision.warning::before{background:var(--yellow)}
+  .decision.danger::before{background:var(--red)}
+  .decision.neutral::before{background:var(--gray)}
+  .d-tag{display:inline-block;font-size:.7rem;padding:3px 10px;border-radius:99px;
+    background:rgba(79,140,255,.15);color:#7aa9ff;margin-bottom:10px;letter-spacing:.5px}
+  .decision h2{font-size:1.25rem;margin-bottom:12px;line-height:1.35}
+  .d-row{display:flex;gap:12px;margin-bottom:10px}
+  .d-box{flex:1;background:rgba(255,255,255,.04);border-radius:12px;padding:11px 13px}
+  .d-box .k{font-size:.7rem;color:var(--muted);margin-bottom:5px}
+  .d-box .v{font-size:1.05rem;font-weight:600}
+  .d-box .v.big{font-size:1.3rem;color:var(--accent)}
+  .d-detail{font-size:.85rem;line-height:1.65;color:#b9c6da;margin-top:12px;
+    padding-top:12px;border-top:1px dashed var(--line)}
+  .d-steps{margin-top:10px;padding-left:0;list-style:none}
+  .d-steps li{font-size:.82rem;color:#a8b6ca;padding:5px 0 5px 22px;position:relative}
+  .d-steps li::before{content:"→";position:absolute;left:4px;color:var(--accent)}
+
+  /* 信号卡 */
+  .sig{background:var(--card);border-radius:16px;padding:16px;margin-bottom:12px;
+    border:1px solid var(--line);position:relative;transition:.25s}
+  .sig.low{border-color:var(--green);box-shadow:0 0 0 1px rgba(22,199,132,.25),0 6px 24px rgba(22,199,132,.12)}
+  .sig.warn{border-color:rgba(246,70,93,.5)}
+  .sig-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:10px}
+  .sig-name{font-size:.95rem;font-weight:600}
+  .sig-desc{font-size:.72rem;color:var(--muted);margin-top:3px}
+  .badge{font-size:.72rem;padding:4px 11px;border-radius:99px;font-weight:600;white-space:nowrap}
+  .badge.green{background:rgba(22,199,132,.15);color:var(--green)}
+  .badge.yellow{background:rgba(240,185,11,.15);color:var(--yellow)}
+  .badge.red{background:rgba(246,70,93,.15);color:var(--red)}
+  .badge.gray{background:rgba(90,107,133,.2);color:#9aaac0}
+  .sig-val{display:flex;align-items:baseline;gap:8px;margin-bottom:8px}
+  .sig-val b{font-size:1.85rem;font-weight:700;letter-spacing:-.5px}
+  .sig-val small{font-size:.8rem;color:var(--muted)}
+  .sig-extra{font-size:.78rem;color:var(--muted);margin-bottom:10px}
+  /* 进度条 */
+  .bar{height:8px;border-radius:99px;background:var(--card2);position:relative;overflow:hidden;margin-bottom:7px}
+  .bar .fill{position:absolute;top:0;bottom:0;left:0;border-radius:99px;transition:width .6s ease}
+  .bar .mark{position:absolute;top:-2px;bottom:-2px;width:2px;background:rgba(255,255,255,.35)}
+  .sig-foot{display:flex;justify-content:space-between;font-size:.68rem;color:var(--muted)}
+  .low-flag{margin-top:11px;background:rgba(22,199,132,.12);border-radius:9px;
+    padding:8px 11px;font-size:.78rem;color:#4fe0a8;display:flex;align-items:center;gap:7px}
+
+  /* 汇总 */
+  .summary{background:var(--card);border-radius:16px;padding:16px;margin-bottom:16px;border:1px solid var(--line)}
+  .sum-title{font-size:.85rem;color:var(--muted);margin-bottom:12px}
+  .dots{display:flex;gap:10px;margin-bottom:14px}
+  .dot{flex:1;text-align:center}
+  .dot i{display:block;width:100%;height:8px;border-radius:99px;background:var(--card2);margin-bottom:7px}
+  .dot i.on{background:var(--green);box-shadow:0 0 12px rgba(22,199,132,.5)}
+  .dot span{font-size:.7rem;color:var(--muted)}
+  .sum-res{font-size:.9rem;text-align:center;padding:11px;border-radius:11px;font-weight:600}
+  .sum-res.s0{background:rgba(79,140,255,.12);color:#7aa9ff}
+  .sum-res.s1{background:rgba(240,185,11,.12);color:var(--yellow)}
+  .sum-res.s2,.sum-res.s3{background:rgba(246,70,93,.14);color:#ff7a8b}
+
+  /* 输入 */
+  .cfg{background:var(--card);border-radius:16px;padding:16px;border:1px solid var(--line);margin-bottom:16px}
+  .cfg label{font-size:.78rem;color:var(--muted);display:block;margin-bottom:7px}
+  .cfg-row{display:flex;gap:10px;align-items:center}
+  .cfg input{flex:1;background:var(--card2);border:1px solid var(--line);border-radius:11px;
+    padding:12px 14px;color:var(--text);font-size:1rem;outline:none;font-family:inherit}
+  .cfg input:focus{border-color:var(--accent)}
+  .cfg .unit{color:var(--muted);font-size:.9rem}
+
+  .rules{background:var(--card);border-radius:16px;padding:16px;border:1px solid var(--line);margin-bottom:16px}
+  .rules summary{font-size:.9rem;cursor:pointer;color:#b9c6da;font-weight:600}
+  .rules .body{margin-top:12px;font-size:.82rem;line-height:1.85;color:#9fb0c6}
+  .rules .body b{color:var(--text)}
+  .rules .body .hl{color:var(--green);font-weight:600}
+  .rules .body .hl2{color:var(--yellow);font-weight:600}
+  .rules .body .hl3{color:#ff7a8b;font-weight:600}
+
+  .updated{text-align:center;font-size:.72rem;color:var(--muted);margin:18px 0 8px;line-height:1.7}
+  .skeleton{background:linear-gradient(90deg,#141d2f 25%,#1e2a42 50%,#141d2f 75%);
+    background-size:200% 100%;animation:sh 1.4s infinite;border-radius:16px;height:140px;margin-bottom:12px}
+  @keyframes sh{0%{background-position:200% 0}100%{background-position:-200% 0}}
+  .err{background:rgba(246,70,93,.1);border:1px solid rgba(246,70,93,.4);border-radius:14px;
+    padding:16px;font-size:.85rem;color:#ff98a5;line-height:1.7}
+  footer{position:fixed;bottom:0;left:0;right:0;background:rgba(15,23,38,.95);
+    backdrop-filter:blur(12px);border-top:1px solid var(--line);padding:9px 14px calc(9px + env(safe-area-inset-bottom));
+    font-size:.68rem;color:var(--muted);text-align:center;z-index:15}
+  @media(max-width:400px){.sig-val b{font-size:1.6rem}.decision h2{font-size:1.1rem}}
+</style>
+</head>
+<body>
+<header>
+  <div>
+    <h1>三信号监控</h1>
+    <div class="sub">CAPE · 回撤 DD · VIX ｜ 纳指定投决策</div>
+  </div>
+  <button class="refresh" id="btnRefresh">↻ 刷新</button>
+</header>
+
+<main>
+  <div id="app">
+    <div class="skeleton"></div>
+    <div class="skeleton"></div>
+    <div class="skeleton"></div>
+  </div>
+
+  <div class="cfg">
+    <label>每月定投基数（美元）</label>
+    <div class="cfg-row">
+      <input id="capital" type="number" value="10000" min="1" step="1000">
+      <span class="unit">USD / 月</span>
+    </div>
+  </div>
+
+  <details class="rules">
+    <summary>📖 决策规则（来自原文策略）</summary>
+    <div class="body">
+      <b>三个低位信号</b><br>
+      · <span class="hl">CAPE 分位 &lt; 20%</span>：估值极度便宜<br>
+      · <span class="hl">回撤 &gt; 20%</span>：距历史高点跌超两成<br>
+      · <span class="hl">VIX &gt; 40</span>：市场极度恐慌<br><br>
+      <b>决策树</b><br>
+      · 亮 <span class="hl3">2~3 个</span> → 大底：当月 <b>3 倍投入 + 弹药仓全打</b>，买 TQQQ，之后 6 个月加满<br>
+      · 亮 <span class="hl2">1 个</span> → 小底：当月 <b>2 倍投入</b>，买 QQQ<br>
+      · 一个都没亮，按顺序判断：<br>
+      &nbsp;&nbsp;1) 25 日急跌 &gt;12% → 卖出<b>一半 TQQQ</b> 进弹药仓<br>
+      &nbsp;&nbsp;2) CAPE 分位 &gt;70% 且贴近新高 → <b>本月不投</b>，钱留场外<br>
+      &nbsp;&nbsp;3) 连续过热/过静（CAPE&gt;85% 或 VIX&lt;12）→ 每月卖 <b>1/12 TQQQ</b><br>
+      &nbsp;&nbsp;4) 其他 → 正常 <b>1 倍投入</b>买 QQQ<br><br>
+      <b>弹药仓</b>：无低位信号时每月用 1/6 余额回补 QQQ；低位信号出现则全部打出。<br><br>
+      <span style="color:#6f809a">⚠️ 数据来自公开接口，仅供参考，非投资建议。</span>
+    </div>
+  </details>
+
+  <div class="updated" id="updated"></div>
+</main>
+
+<footer>数据：Shiller CAPE (multpl) · QQQ 行情 (Nasdaq) · VIX (腾讯财经)</footer>
+
+<script>
+const $ = s => document.querySelector(s);
+let CAP = 10000;
+
+function fmt(n){ return Number(n).toLocaleString('en-US'); }
+function cls(level){
+  if(/低位|超跌|恐慌/.test(level) && !/过度平静/.test(level)) return 'green';
+  if(/泡沫|急跌/.test(level)) return 'red';
+  if(/高估|平静/.test(level)) return 'yellow';
+  return 'gray';
+}
+
+function renderSignal(s){
+  const isLow = s.low;
+  const badgeCls = cls(s.level);
+  let barHTML = '';
+  if(s.key === 'cape'){
+    barHTML = `<div class="bar">
+      <div class="fill" style="width:${Math.min(100,s.percentile)}%;background:linear-gradient(90deg,#16c784,#f0b90b,#f6465d)"></div>
+      <div class="mark" style="left:20%"></div><div class="mark" style="left:70%"></div>
+      <div class="mark" style="left:85%"></div></div>
+      <div class="sig-foot"><span>0% 便宜</span><span>70% 高估</span><span>100%</span></div>`;
+  } else if(s.key === 'dd'){
+    const pct = Math.min(100, Math.abs(s.value) / 40 * 100);
+    barHTML = `<div class="bar">
+      <div class="fill" style="width:${pct}%;background:${s.low?'#16c784':'#4f8cff'}"></div>
+      <div class="mark" style="left:50%"></div></div>
+      <div class="sig-foot"><span>0% 新高</span><span>-20% 超跌线</span><span>-40%</span></div>`;
+  } else {
+    const pct = Math.min(100, s.value / 60 * 100);
+    barHTML = `<div class="bar">
+      <div class="fill" style="width:${pct}%;background:${s.low?'#16c784':'#4f8cff'}"></div>
+      <div class="mark" style="left:20%"></div><div class="mark" style="left:66.7%"></div></div>
+      <div class="sig-foot"><span>0 平静</span><span>12</span><span>40 恐慌</span><span>60</span></div>`;
+  }
+  return `
+  <div class="sig ${isLow?'low':(s.warn?'warn':'')}">
+    <div class="sig-top">
+      <div><div class="sig-name">${s.name}</div><div class="sig-desc">${s.desc}</div></div>
+      <span class="badge ${badgeCls}">${s.level}</span>
+    </div>
+    <div class="sig-val"><b>${s.value}${s.unit}</b><small>${s.extra}</small></div>
+    ${barHTML}
+    ${isLow?`<div class="low-flag">✅ 低位信号已触发 · 计入抄底信号</div>`:''}
+  </div>`;
+}
+
+function render(data){
+  const a = data.action;
+  const dots = data.signals.map(s =>
+    `<div class="dot"><i class="${s.low?'on':''}"></i><span>${s.name.replace('估值 ','').replace('恐慌 ','')}</span></div>`
+  ).join('');
+  $('#app').innerHTML = `
+    <div class="decision ${a.color}">
+      <span class="d-tag">本月操作建议${data.regime?' · '+data.regime:''}</span>
+      <h2>${a.title}</h2>
+      <div class="d-row">
+        <div class="d-box"><div class="k">买入标的</div><div class="v">${a.target}</div></div>
+        <div class="d-box"><div class="k">本月投入</div><div class="v big">${a.multiplier?('$'+a.amount):'—'}</div></div>
+      </div>
+      <div class="d-row">
+        <div class="d-box"><div class="k">投入倍数</div><div class="v">${a.multiplier?a.multiplier+'×':'—'}</div></div>
+        <div class="d-box"><div class="k">弹药仓</div><div class="v">${a.ammo}</div></div>
+      </div>
+      <div class="d-detail">${a.detail}</div>
+      <ul class="d-steps">${a.steps.map(s=>`<li>${s}</li>`).join('')}</ul>
+    </div>
+
+    <div class="summary">
+      <div class="sum-title">低位信号计数</div>
+      <div class="dots">${dots}</div>
+      <div class="sum-res s${data.low_count}">
+        ${data.low_count===0?'0 个低位信号 · 执行常规规则':
+          data.low_count===1?'1 个低位信号 · 小底（2 倍投入）':
+          data.low_count+' 个低位信号共振 · 大底（3 倍 + 弹药仓全打）'}
+      </div>
+    </div>
+
+    ${data.signals.map(renderSignal).join('')}
+  `;
+  $('#updated').innerHTML = `数据更新于 ${data.generated_at.replace('T',' ')}<br>
+    CAPE 截至 ${data.raw.cape.as_of} · QQQ 截至 ${data.raw.qqq.date} · 缓存 15 分钟`;
+}
+
+async function load(force){
+  const btn = $('#btnRefresh');
+  btn.classList.add('spin');
+  btn.textContent = '加载中…';
+  try{
+    if(force) await fetch('/api/refresh',{method:'POST'});
+    const r = await fetch('/api/snapshot?capital=' + CAP);
+    const d = await r.json();
+    if(d.error) throw new Error(d.error);
+    render(d);
+  }catch(e){
+    $('#app').innerHTML = `<div class="err">
+      ⚠️ 数据获取失败：${e.message}<br><br>
+      常见原因：数据源临时限流，或本机未启动后端服务。<br>
+      可稍后点右上角「刷新」重试。</div>`;
+  }finally{
+    btn.classList.remove('spin');
+    btn.textContent = '↻ 刷新';
+  }
+}
+
+$('#btnRefresh').onclick = () => load(true);
+$('#capital').onchange = e => {
+  const v = parseFloat(e.target.value);
+  if(v > 0){ CAP = v; load(false); }
+};
+
+CAP = parseFloat(localStorage.getItem('capital') || '10000');
+$('#capital').value = CAP;
+load(false);
+
+if('serviceWorker' in navigator){ navigator.serviceWorker.register('sw.js').catch(()=>{}); }
+</script>
+</body>
+</html>
