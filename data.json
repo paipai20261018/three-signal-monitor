@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-28T20:40:10",
+  "generated_at": "2026-10-28T23:48:14",
   "low_count": 0,
   "regime": "无低位信号 · 常规执行",
   "action": {
@@ -21,7 +21,7 @@
     {
       "key": "cape",
       "name": "估值 CAPE",
-      "value": 40.89,
+      "value": 41.04,
       "unit": "倍",
       "extra": "历史分位 99.0%",
       "percentile": 99.0,
@@ -31,7 +31,7 @@
       "level": "泡沫警戒",
       "thresholds": "低位 <20% · 高估 >70% · 泡沫 >85%",
       "desc": "席勒市盈率，衡量市场估值贵不贵",
-      "as_of": "2026-10-27"
+      "as_of": "2026-10-28"
     },
     {
       "key": "dd",
@@ -64,9 +64,9 @@
   ],
   "raw": {
     "cape": {
-      "value": 40.89,
+      "value": 41.04,
       "percentile": 99.0,
-      "as_of": "2026-10-27",
+      "as_of": "2026-10-28",
       "sample_size": 1870
     },
     "qqq": {
