@@ -16,7 +16,7 @@
   }
   *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
   body{font-family:-apple-system,"PingFang SC","Microsoft YaHei",sans-serif;
-    background:var(--bg);color:var(--text);min-height:100vh;padding-bottom:70px;font-size:15px}
+    background:var(--bg);color:var(--text);min-height:100vh;padding-bottom:40px;font-size:15px}
   header{padding:18px 16px 12px;display:flex;justify-content:space-between;align-items:center;
     position:sticky;top:0;background:rgba(11,18,32,.92);backdrop-filter:blur(12px);z-index:20;
     border-bottom:1px solid var(--line)}
@@ -24,12 +24,9 @@
   header .sub{font-size:.7rem;color:var(--muted);margin-top:3px}
   .refresh{border:1px solid var(--line);background:var(--card);color:var(--text);
     padding:7px 14px;border-radius:10px;font-size:.8rem;cursor:pointer;transition:.2s}
-  .refresh:hover{border-color:var(--accent);color:var(--accent)}
   .refresh:active{transform:scale(.96)}
-  .refresh.spin{pointer-events:none;opacity:.6}
   main{padding:16px;max-width:720px;margin:0 auto}
 
-  /* 决策卡 */
   .decision{border-radius:18px;padding:18px;margin-bottom:16px;position:relative;overflow:hidden;
     background:linear-gradient(135deg,#1a2740,#141d2f);border:1px solid var(--line)}
   .decision::before{content:"";position:absolute;left:0;top:0;bottom:0;width:5px}
@@ -47,13 +44,12 @@
   .d-box .v.big{font-size:1.3rem;color:var(--accent)}
   .d-detail{font-size:.85rem;line-height:1.65;color:#b9c6da;margin-top:12px;
     padding-top:12px;border-top:1px dashed var(--line)}
-  .d-steps{margin-top:10px;padding-left:0;list-style:none}
+  .d-steps{margin-top:10px;list-style:none}
   .d-steps li{font-size:.82rem;color:#a8b6ca;padding:5px 0 5px 22px;position:relative}
   .d-steps li::before{content:"→";position:absolute;left:4px;color:var(--accent)}
 
-  /* 信号卡 */
   .sig{background:var(--card);border-radius:16px;padding:16px;margin-bottom:12px;
-    border:1px solid var(--line);position:relative;transition:.25s}
+    border:1px solid var(--line);transition:.25s}
   .sig.low{border-color:var(--green);box-shadow:0 0 0 1px rgba(22,199,132,.25),0 6px 24px rgba(22,199,132,.12)}
   .sig.warn{border-color:rgba(246,70,93,.5)}
   .sig-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:10px}
@@ -68,7 +64,6 @@
   .sig-val b{font-size:1.85rem;font-weight:700;letter-spacing:-.5px}
   .sig-val small{font-size:.8rem;color:var(--muted)}
   .sig-extra{font-size:.78rem;color:var(--muted);margin-bottom:10px}
-  /* 进度条 */
   .bar{height:8px;border-radius:99px;background:var(--card2);position:relative;overflow:hidden;margin-bottom:7px}
   .bar .fill{position:absolute;top:0;bottom:0;left:0;border-radius:99px;transition:width .6s ease}
   .bar .mark{position:absolute;top:-2px;bottom:-2px;width:2px;background:rgba(255,255,255,.35)}
@@ -76,7 +71,6 @@
   .low-flag{margin-top:11px;background:rgba(22,199,132,.12);border-radius:9px;
     padding:8px 11px;font-size:.78rem;color:#4fe0a8;display:flex;align-items:center;gap:7px}
 
-  /* 汇总 */
   .summary{background:var(--card);border-radius:16px;padding:16px;margin-bottom:16px;border:1px solid var(--line)}
   .sum-title{font-size:.85rem;color:var(--muted);margin-bottom:12px}
   .dots{display:flex;gap:10px;margin-bottom:14px}
@@ -89,22 +83,13 @@
   .sum-res.s1{background:rgba(240,185,11,.12);color:var(--yellow)}
   .sum-res.s2,.sum-res.s3{background:rgba(246,70,93,.14);color:#ff7a8b}
 
-  /* 输入 */
-  .cfg{background:var(--card);border-radius:16px;padding:16px;border:1px solid var(--line);margin-bottom:16px}
-  .cfg label{font-size:.78rem;color:var(--muted);display:block;margin-bottom:7px}
-  .cfg-row{display:flex;gap:10px;align-items:center}
-  .cfg input{flex:1;background:var(--card2);border:1px solid var(--line);border-radius:11px;
-    padding:12px 14px;color:var(--text);font-size:1rem;outline:none;font-family:inherit}
-  .cfg input:focus{border-color:var(--accent)}
-  .cfg .unit{color:var(--muted);font-size:.9rem}
-
   .rules{background:var(--card);border-radius:16px;padding:16px;border:1px solid var(--line);margin-bottom:16px}
   .rules summary{font-size:.9rem;cursor:pointer;color:#b9c6da;font-weight:600}
   .rules .body{margin-top:12px;font-size:.82rem;line-height:1.85;color:#9fb0c6}
   .rules .body b{color:var(--text)}
-  .rules .body .hl{color:var(--green);font-weight:600}
-  .rules .body .hl2{color:var(--yellow);font-weight:600}
-  .rules .body .hl3{color:#ff7a8b;font-weight:600}
+  .rules .hl{color:var(--green);font-weight:600}
+  .rules .hl2{color:var(--yellow);font-weight:600}
+  .rules .hl3{color:#ff7a8b;font-weight:600}
 
   .updated{text-align:center;font-size:.72rem;color:var(--muted);margin:18px 0 8px;line-height:1.7}
   .skeleton{background:linear-gradient(90deg,#141d2f 25%,#1e2a42 50%,#141d2f 75%);
@@ -129,17 +114,7 @@
 
 <main>
   <div id="app">
-    <div class="skeleton"></div>
-    <div class="skeleton"></div>
-    <div class="skeleton"></div>
-  </div>
-
-  <div class="cfg">
-    <label>每月定投基数（美元）</label>
-    <div class="cfg-row">
-      <input id="capital" type="number" value="10000" min="1" step="1000">
-      <span class="unit">USD / 月</span>
-    </div>
+    <div class="skeleton"></div><div class="skeleton"></div><div class="skeleton"></div>
   </div>
 
   <details class="rules">
@@ -158,20 +133,18 @@
       &nbsp;&nbsp;3) 连续过热/过静（CAPE&gt;85% 或 VIX&lt;12）→ 每月卖 <b>1/12 TQQQ</b><br>
       &nbsp;&nbsp;4) 其他 → 正常 <b>1 倍投入</b>买 QQQ<br><br>
       <b>弹药仓</b>：无低位信号时每月用 1/6 余额回补 QQQ；低位信号出现则全部打出。<br><br>
-      <span style="color:#6f809a">⚠️ 数据来自公开接口，仅供参考，非投资建议。</span>
+      <span style="color:#6f809a">⚠️ 数据由 GitHub Actions 每日自动更新，仅供参考，非投资建议。</span>
     </div>
   </details>
 
   <div class="updated" id="updated"></div>
 </main>
 
-<footer>数据：Shiller CAPE (multpl) · QQQ 行情 (Nasdaq) · VIX (腾讯财经)</footer>
+<footer>CAPE (multpl) · QQQ (Nasdaq) · VIX (腾讯) ｜ GitHub Actions 自动更新</footer>
 
 <script>
 const $ = s => document.querySelector(s);
-let CAP = 10000;
 
-function fmt(n){ return Number(n).toLocaleString('en-US'); }
 function cls(level){
   if(/低位|超跌|恐慌/.test(level) && !/过度平静/.test(level)) return 'green';
   if(/泡沫|急跌/.test(level)) return 'red';
@@ -214,18 +187,18 @@ function renderSignal(s){
   </div>`;
 }
 
-function render(data){
-  const a = data.action;
-  const dots = data.signals.map(s =>
+function render(d){
+  const a = d.action;
+  const dots = d.signals.map(s =>
     `<div class="dot"><i class="${s.low?'on':''}"></i><span>${s.name.replace('估值 ','').replace('恐慌 ','')}</span></div>`
   ).join('');
   $('#app').innerHTML = `
     <div class="decision ${a.color}">
-      <span class="d-tag">本月操作建议${data.regime?' · '+data.regime:''}</span>
+      <span class="d-tag">本月操作建议 · ${d.regime}</span>
       <h2>${a.title}</h2>
       <div class="d-row">
         <div class="d-box"><div class="k">买入标的</div><div class="v">${a.target}</div></div>
-        <div class="d-box"><div class="k">本月投入</div><div class="v big">${a.multiplier?('$'+a.amount):'—'}</div></div>
+        <div class="d-box"><div class="k">本月投入（按 $10,000 基数）</div><div class="v big">${a.multiplier?('$'+a.amount):'—'}</div></div>
       </div>
       <div class="d-row">
         <div class="d-box"><div class="k">投入倍数</div><div class="v">${a.multiplier?a.multiplier+'×':'—'}</div></div>
@@ -238,51 +211,31 @@ function render(data){
     <div class="summary">
       <div class="sum-title">低位信号计数</div>
       <div class="dots">${dots}</div>
-      <div class="sum-res s${data.low_count}">
-        ${data.low_count===0?'0 个低位信号 · 执行常规规则':
-          data.low_count===1?'1 个低位信号 · 小底（2 倍投入）':
-          data.low_count+' 个低位信号共振 · 大底（3 倍 + 弹药仓全打）'}
+      <div class="sum-res s${d.low_count}">
+        ${d.low_count===0?'0 个低位信号 · 执行常规规则':
+          d.low_count===1?'1 个低位信号 · 小底（2 倍投入）':
+          d.low_count+' 个低位信号共振 · 大底（3 倍 + 弹药仓全打）'}
       </div>
     </div>
 
-    ${data.signals.map(renderSignal).join('')}
+    ${d.signals.map(renderSignal).join('')}
   `;
-  $('#updated').innerHTML = `数据更新于 ${data.generated_at.replace('T',' ')}<br>
-    CAPE 截至 ${data.raw.cape.as_of} · QQQ 截至 ${data.raw.qqq.date} · 缓存 15 分钟`;
+  $('#updated').innerHTML = `数据更新于 ${d.generated_at.replace('T',' ')} (UTC)<br>
+    CAPE 截至 ${d.raw.cape.as_of} · QQQ 截至 ${d.raw.qqq.date} · 每日自动更新`;
 }
 
-async function load(force){
-  const btn = $('#btnRefresh');
-  btn.classList.add('spin');
-  btn.textContent = '加载中…';
+async function load(){
   try{
-    if(force) await fetch('/api/refresh',{method:'POST'});
-    const r = await fetch('/api/snapshot?capital=' + CAP);
-    const d = await r.json();
-    if(d.error) throw new Error(d.error);
-    render(d);
+    const r = await fetch('data.json?t=' + Date.now(), {cache:'no-store'});
+    if(!r.ok) throw new Error('HTTP ' + r.status);
+    render(await r.json());
   }catch(e){
-    $('#app').innerHTML = `<div class="err">
-      ⚠️ 数据获取失败：${e.message}<br><br>
-      常见原因：数据源临时限流，或本机未启动后端服务。<br>
-      可稍后点右上角「刷新」重试。</div>`;
-  }finally{
-    btn.classList.remove('spin');
-    btn.textContent = '↻ 刷新';
+    $('#app').innerHTML = `<div class="err">⚠️ 暂时读不到数据（${e.message}）<br><br>
+      数据由 GitHub Actions 每日自动更新，请稍后点「刷新」重试。</div>`;
   }
 }
-
-$('#btnRefresh').onclick = () => load(true);
-$('#capital').onchange = e => {
-  const v = parseFloat(e.target.value);
-  if(v > 0){ CAP = v; load(false); }
-};
-
-CAP = parseFloat(localStorage.getItem('capital') || '10000');
-$('#capital').value = CAP;
-load(false);
-
-if('serviceWorker' in navigator){ navigator.serviceWorker.register('sw.js').catch(()=>{}); }
+$('#btnRefresh').onclick = () => { location.reload(); };
+load();
 </script>
 </body>
 </html>
