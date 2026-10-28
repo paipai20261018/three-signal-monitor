@@ -1,0 +1,86 @@
+{
+  "generated_at": "2026-10-28T20:40:10",
+  "low_count": 0,
+  "regime": "无低位信号 · 常规执行",
+  "action": {
+    "code": "derisk",
+    "title": "🔻 市场过热/过静：减 1/12 杠杆",
+    "target": "卖出 1/12 TQQQ",
+    "multiplier": 0,
+    "amount": "0",
+    "ammo": "转入弹药仓",
+    "detail": "市场连续处于过热（CAPE>85%）或过度平静（VIX<12）状态，每月卖出持仓的 1/12 TQQQ，保留底线仓位，其余转入弹药仓。",
+    "steps": [
+      "卖出 TQQQ 持仓的 1/12",
+      "资金转入弹药仓",
+      "本月暂不新增 QQQ 投入"
+    ],
+    "color": "warning"
+  },
+  "signals": [
+    {
+      "key": "cape",
+      "name": "估值 CAPE",
+      "value": 40.89,
+      "unit": "倍",
+      "extra": "历史分位 99.0%",
+      "percentile": 99.0,
+      "low": false,
+      "high": true,
+      "warn": true,
+      "level": "泡沫警戒",
+      "thresholds": "低位 <20% · 高估 >70% · 泡沫 >85%",
+      "desc": "席勒市盈率，衡量市场估值贵不贵",
+      "as_of": "2026-10-27"
+    },
+    {
+      "key": "dd",
+      "name": "回撤 DD",
+      "value": -5.06,
+      "unit": "%",
+      "extra": "现价 721.25 · 高点 759.66",
+      "low": false,
+      "high": false,
+      "warn": false,
+      "level": "正常区间",
+      "thresholds": "超跌 <-20% · 25日急跌 <-12% · 新高 ≈0%",
+      "desc": "纳指距历史最高点的跌幅",
+      "as_of": "2026-10-27"
+    },
+    {
+      "key": "vix",
+      "name": "恐慌 VIX",
+      "value": 21.67,
+      "unit": "",
+      "extra": "波动率指数",
+      "low": false,
+      "high": false,
+      "warn": false,
+      "level": "正常",
+      "thresholds": "恐慌 >40 · 平静 <12",
+      "desc": "市场恐慌情绪，越高越恐慌",
+      "as_of": "2026-10-28"
+    }
+  ],
+  "raw": {
+    "cape": {
+      "value": 40.89,
+      "percentile": 99.0,
+      "as_of": "2026-10-27",
+      "sample_size": 1870
+    },
+    "qqq": {
+      "price": 721.25,
+      "date": "2026-10-27",
+      "peak": 759.66,
+      "peak_date": "2026-10-06",
+      "drawdown": -5.06,
+      "drop_25d": -3.51,
+      "near_high": false
+    },
+    "vix": {
+      "value": 21.67,
+      "change": "0.00"
+    }
+  }
+}
