@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-29T14:50:51",
+  "generated_at": "2026-10-30T01:47:58",
   "low_count": 0,
   "regime": "无低位信号 · 常规执行",
   "action": {
@@ -21,7 +21,7 @@
     {
       "key": "cape",
       "name": "估值 CAPE",
-      "value": 41.04,
+      "value": 40.88,
       "unit": "倍",
       "extra": "历史分位 99.0%",
       "percentile": 99.0,
@@ -31,21 +31,21 @@
       "level": "泡沫警戒",
       "thresholds": "低位 <20% · 高估 >70% · 泡沫 >85%",
       "desc": "席勒市盈率，衡量市场估值贵不贵",
-      "as_of": "2026-10-28"
+      "as_of": "2026-10-29"
     },
     {
       "key": "dd",
       "name": "回撤 DD",
-      "value": -4.48,
+      "value": -5.83,
       "unit": "%",
-      "extra": "现价 725.61 · 高点 759.66",
+      "extra": "现价 715.34 · 高点 759.66",
       "low": false,
       "high": false,
       "warn": false,
       "level": "正常区间",
       "thresholds": "超跌 <-20% · 25日急跌 <-12% · 新高 ≈0%",
       "desc": "纳指距历史最高点的跌幅",
-      "as_of": "2026-10-28"
+      "as_of": "2026-10-29"
     },
     {
       "key": "vix",
@@ -59,23 +59,23 @@
       "level": "正常",
       "thresholds": "恐慌 >40 · 平静 <12",
       "desc": "市场恐慌情绪，越高越恐慌",
-      "as_of": "2026-10-29"
+      "as_of": "2026-10-30"
     }
   ],
   "raw": {
     "cape": {
-      "value": 41.04,
+      "value": 40.88,
       "percentile": 99.0,
-      "as_of": "2026-10-28",
+      "as_of": "2026-10-29",
       "sample_size": 1870
     },
     "qqq": {
-      "price": 725.61,
-      "date": "2026-10-28",
+      "price": 715.34,
+      "date": "2026-10-29",
       "peak": 759.66,
       "peak_date": "2026-10-06",
-      "drawdown": -4.48,
-      "drop_25d": -2.1,
+      "drawdown": -5.83,
+      "drop_25d": -3.48,
       "near_high": false
     },
     "vix": {
