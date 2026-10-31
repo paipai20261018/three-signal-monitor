@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-30T14:51:00",
+  "generated_at": "2026-10-31T01:45:14",
   "low_count": 0,
   "regime": "无低位信号 · 常规执行",
   "action": {
@@ -21,31 +21,31 @@
     {
       "key": "cape",
       "name": "估值 CAPE",
-      "value": 40.88,
+      "value": 40.13,
       "unit": "倍",
-      "extra": "历史分位 99.0%",
-      "percentile": 99.0,
+      "extra": "历史分位 98.7%",
+      "percentile": 98.7,
       "low": false,
       "high": true,
       "warn": true,
       "level": "泡沫警戒",
       "thresholds": "低位 <20% · 高估 >70% · 泡沫 >85%",
       "desc": "席勒市盈率，衡量市场估值贵不贵",
-      "as_of": "2026-10-29"
+      "as_of": "2026-10-30"
     },
     {
       "key": "dd",
       "name": "回撤 DD",
-      "value": -5.83,
+      "value": -9.11,
       "unit": "%",
-      "extra": "现价 715.34 · 高点 759.66",
+      "extra": "现价 690.49 · 高点 759.66",
       "low": false,
       "high": false,
       "warn": false,
       "level": "正常区间",
       "thresholds": "超跌 <-20% · 25日急跌 <-12% · 新高 ≈0%",
       "desc": "纳指距历史最高点的跌幅",
-      "as_of": "2026-10-29"
+      "as_of": "2026-10-30"
     },
     {
       "key": "vix",
@@ -59,23 +59,23 @@
       "level": "正常",
       "thresholds": "恐慌 >40 · 平静 <12",
       "desc": "市场恐慌情绪，越高越恐慌",
-      "as_of": "2026-10-30"
+      "as_of": "2026-10-31"
     }
   ],
   "raw": {
     "cape": {
-      "value": 40.88,
-      "percentile": 99.0,
-      "as_of": "2026-10-29",
+      "value": 40.13,
+      "percentile": 98.7,
+      "as_of": "2026-10-30",
       "sample_size": 1870
     },
     "qqq": {
-      "price": 715.34,
-      "date": "2026-10-29",
+      "price": 690.49,
+      "date": "2026-10-30",
       "peak": 759.66,
       "peak_date": "2026-10-06",
-      "drawdown": -5.83,
-      "drop_25d": -3.48,
+      "drawdown": -9.11,
+      "drop_25d": -7.25,
       "near_high": false
     },
     "vix": {
