@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-11-17T02:00:14",
+  "generated_at": "2026-11-17T14:51:12",
   "low_count": 0,
   "regime": "无低位信号 · 常规执行",
   "action": {
@@ -36,16 +36,16 @@
     {
       "key": "dd",
       "name": "回撤 DD",
-      "value": -10.5,
+      "value": -12.89,
       "unit": "%",
-      "extra": "现价 679.89 · 高点 759.66",
+      "extra": "现价 661.75 · 高点 759.66",
       "low": false,
       "high": false,
       "warn": false,
       "level": "正常区间",
       "thresholds": "超跌 <-20% · 25日急跌 <-12% · 新高 ≈0%",
       "desc": "纳指距历史最高点的跌幅",
-      "as_of": "2026-11-13"
+      "as_of": "2026-11-16"
     },
     {
       "key": "vix",
@@ -70,12 +70,12 @@
       "sample_size": 1871
     },
     "qqq": {
-      "price": 679.89,
-      "date": "2026-11-13",
+      "price": 661.75,
+      "date": "2026-11-16",
       "peak": 759.66,
       "peak_date": "2026-10-06",
-      "drawdown": -10.5,
-      "drop_25d": -9.5,
+      "drawdown": -12.89,
+      "drop_25d": -11.3,
       "near_high": false
     },
     "vix": {
