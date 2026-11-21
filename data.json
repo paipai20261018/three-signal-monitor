@@ -1,51 +1,51 @@
 {
-  "generated_at": "2026-11-20T14:50:48",
+  "generated_at": "2026-11-21T02:00:00",
   "low_count": 0,
   "regime": "无低位信号 · 常规执行",
   "action": {
-    "code": "derisk",
-    "title": "🔻 市场过热/过静：减 1/12 杠杆",
-    "target": "卖出 1/12 TQQQ",
+    "code": "crash_hedge",
+    "title": "⚠️ 25 日急跌超 12%：减半杠杆",
+    "target": "卖出 50% TQQQ",
     "multiplier": 0,
     "amount": "0",
     "ammo": "转入弹药仓",
-    "detail": "市场连续处于过热（CAPE>85%）或过度平静（VIX<12）状态，每月卖出持仓的 1/12 TQQQ，保留底线仓位，其余转入弹药仓。",
+    "detail": "紧急卖出手上一半的 TQQQ，资金转入弹药仓（货币基金）等待低位信号。",
     "steps": [
-      "卖出 TQQQ 持仓的 1/12",
-      "资金转入弹药仓",
-      "本月暂不新增 QQQ 投入"
+      "卖出 50% 的 TQQQ 持仓",
+      "所得资金存入弹药仓（货基）",
+      "本月暂停常规定投"
     ],
-    "color": "warning"
+    "color": "danger"
   },
   "signals": [
     {
       "key": "cape",
       "name": "估值 CAPE",
-      "value": 37.86,
+      "value": 36.44,
       "unit": "倍",
-      "extra": "历史分位 97.8%",
-      "percentile": 97.8,
+      "extra": "历史分位 96.6%",
+      "percentile": 96.6,
       "low": false,
       "high": true,
       "warn": true,
       "level": "泡沫警戒",
       "thresholds": "低位 <20% · 高估 >70% · 泡沫 >85%",
       "desc": "席勒市盈率，衡量市场估值贵不贵",
-      "as_of": "2026-11-19"
+      "as_of": "2026-11-20"
     },
     {
       "key": "dd",
       "name": "回撤 DD",
-      "value": -15.09,
+      "value": -19.9,
       "unit": "%",
-      "extra": "现价 645.04 · 高点 759.66",
+      "extra": "现价 608.45 · 高点 759.66",
       "low": false,
       "high": false,
-      "warn": false,
-      "level": "正常区间",
+      "warn": true,
+      "level": "急跌预警",
       "thresholds": "超跌 <-20% · 25日急跌 <-12% · 新高 ≈0%",
       "desc": "纳指距历史最高点的跌幅",
-      "as_of": "2026-11-19"
+      "as_of": "2026-11-20"
     },
     {
       "key": "vix",
@@ -59,23 +59,23 @@
       "level": "正常",
       "thresholds": "恐慌 >40 · 平静 <12",
       "desc": "市场恐慌情绪，越高越恐慌",
-      "as_of": "2026-11-20"
+      "as_of": "2026-11-21"
     }
   ],
   "raw": {
     "cape": {
-      "value": 37.86,
-      "percentile": 97.8,
-      "as_of": "2026-11-19",
+      "value": 36.44,
+      "percentile": 96.6,
+      "as_of": "2026-11-20",
       "sample_size": 1871
     },
     "qqq": {
-      "price": 645.04,
-      "date": "2026-11-19",
+      "price": 608.45,
+      "date": "2026-11-20",
       "peak": 759.66,
       "peak_date": "2026-10-06",
-      "drawdown": -15.09,
-      "drop_25d": -11.4,
+      "drawdown": -19.9,
+      "drop_25d": -14.28,
       "near_high": false
     },
     "vix": {
